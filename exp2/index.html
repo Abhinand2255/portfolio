@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Online Bookstore</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #fdf6ff; /* light pastel background */
+    }
+    header {
+      background: #6A0DAD; /* deep purple */
+      color: white;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 15px 30px;
+    }
+    header h1 { margin: 0; font-size: 28px; }
+    nav a {
+      color: #ffd1f7; /* soft pink links */
+      text-decoration: none;
+      margin: 0 12px;
+      font-weight: bold;
+    }
+    nav a:hover { text-decoration: underline; color: white; }
+    .search-box input[type="text"] {
+      padding: 6px;
+      border: none;
+      border-radius: 4px;
+    }
+    .search-box input[type="submit"] {
+      padding: 6px 12px;
+      background: #ff7ee3; /* pink button */
+      border: none;
+      border-radius: 4px;
+      font-weight: bold;
+      color: white;
+      cursor: pointer;
+    }
+    .search-box input[type="submit"]:hover { background: #ff52d2; }
+
+    .container {
+      display: flex;
+    }
+    aside {
+      width: 20%;
+      background: #f0e6ff; /* soft lavender */
+      padding: 20px;
+    }
+    aside h3 { text-align: center; color: #6A0DAD; }
+    aside a {
+      display: block;
+      padding: 10px;
+      color: #6A0DAD;
+      font-weight: bold;
+      text-decoration: none;
+      margin: 5px 0;
+      border-radius: 4px;
+    }
+    aside a:hover { background: #e0c8ff; }
+
+    main {
+      width: 80%;
+      padding: 30px;
+      background: white;
+      min-height: 80vh;
+      box-shadow: inset 0 0 5px rgba(0,0,0,0.05);
+    }
+    footer {
+      background: #6A0DAD;
+      color: white;
+      text-align: center;
+      padding: 15px;
+      margin-top: 20px;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div>
+      <h1><img src="logo.jpg" alt="Pondicherry University Logo" 
+           style="height:40px; vertical-align:middle; margin-right:10px;">
+        E - Book Store</h1>
+
+
+      <nav style="margin-top:20px;">
+        <a href="welcome.html" target="contentFrame">Home</a>
+        <a href="login.html" target="contentFrame">Login</a>
+        <a href="register.html" target="contentFrame">Registration</a>
+        <a href="catalogue.html" target="contentFrame">Catalogue</a>
+        <a href="cart.html" target="contentFrame">Cart</a>
+      </nav>
+    </div>
+    <div class="search-box">
+      <form action="catalogue.html" method="get" target="contentFrame">
+        <input type="text" name="search" placeholder="Search books...">
+        <input type="submit" value="Search">
+      </form>
+    </div>
+  </header>
+
+  <div class="container">
+    <aside>
+      <h3>Categories</h3>
+      <a href="cse.html" target="contentFrame">CSE</a>
+      <a href="ece.html" target="contentFrame">ECE</a>
+      <a href="eee.html" target="contentFrame">EEE</a>
+      <a href="civil.html" target="contentFrame">CIVIL</a>
+    </aside>
+
+    <main>
+      <iframe src="welcome.html" name="contentFrame" style="width:100%; height:80vh; border:none;"></iframe>
+    </main>
+  </div>
+
+  <footer>
+    &copy; 2025 My Online Bookstore | All Rights Reserved
+  </footer>
+</body>
+</html>
