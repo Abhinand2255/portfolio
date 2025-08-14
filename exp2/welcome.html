@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Welcome</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      position: relative;
+      min-height: 80vh;
+      background: url('home.jpg') center top/cover no-repeat;
+      color: white;
+    }
+    /* Dark overlay for half-visibility */
+    .overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.4);
+      z-index: 1;
+    }
+    /* Content styling */
+    .content {
+      position: relative;
+      z-index: 2;
+      padding: 40px;
+      text-align: center;
+    }
+    h2 {
+      font-size: 32px;
+      margin-bottom: 10px;
+    }
+    p {
+      font-size: 18px;
+    }
+  </style>
+</head>
+<body>
+  <div class="overlay"></div>
+  <div class="content">
+    <h2>Welcome to My Online Bookstore</h2>
+    <p>Explore a wide collection of books across CSE, ECE, EEE, and Civil Engineering.</p>
+    <p>Use the menu on the left to browse books and add them to your cart.</p>
+  </div>
+</body>
+</html>
