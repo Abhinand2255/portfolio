@@ -19,16 +19,7 @@
       cursor: pointer;
     }
     button:hover { background: #ff52d2; }
-    .qty-btn {
-      padding: 4px 8px;
-      font-size: 14px;
-      margin: 0 4px;
-      background: #6A0DAD;
-      color: white;
-      border: none;
-      border-radius: 4px;
-      cursor: pointer;
-    }
+    .qty-btn { padding: 5px 10px; font-size: 14px; margin: 0 3px; }
     .total {
       text-align: right; 
       margin-top: 20px; 
@@ -60,9 +51,6 @@
 function loadCart() {
   let cart = JSON.parse(localStorage.getItem("cart")) || [];
   let table = document.getElementById("cartTable");
-  let grandTotal = 0;
-
-  // Clear table except the header row
   table.innerHTML = `
     <tr>
       <th>Book Cover</th>
@@ -73,42 +61,35 @@ function loadCart() {
     </tr>
   `;
 
+  let grandTotal = 0;
+
   cart.forEach((item, index) => {
-    grandTotal += item.price * item.quantity;
     let row = table.insertRow();
     row.innerHTML = `
       <td><img src="${item.img}" alt="${item.name}"></td>
       <td>${item.name}</td>
       <td>₹ ${item.price}</td>
       <td>
-        <button class="qty-btn" onclick="changeQty(${index}, -1)">−</button>
-        <span id="qty-${index}">${item.quantity}</span>
-        <button class="qty-btn" onclick="changeQty(${index}, 1)">+</button>
+        <button class="qty-btn" onclick="updateQuantity(${index}, -1)">-</button>
+        ${item.quantity}
+        <button class="qty-btn" onclick="updateQuantity(${index}, 1)">+</button>
       </td>
       <td><button onclick="removeFromCart(${index})">Remove</button></td>
     `;
+    grandTotal += item.price * item.quantity;
   });
 
   document.getElementById("grandTotal").innerText = "Grand Total: ₹ " + grandTotal;
 }
 
-function changeQty(index, change) {
+function updateQuantity(index, change) {
   let cart = JSON.parse(localStorage.getItem("cart")) || [];
   cart[index].quantity += change;
-
   if (cart[index].quantity <= 0) {
     cart.splice(index, 1);
-    localStorage.setItem("cart", JSON.stringify(cart));
-    loadCart(); // Rebuild if an item is removed
-    return;
   }
-
-  // Update quantity in storage
   localStorage.setItem("cart", JSON.stringify(cart));
-
-  // Update only the quantity display and grand total
-  document.getElementById(`qty-${index}`).innerText = cart[index].quantity;
-  updateGrandTotal();
+  loadCart(); // re-render without page reload
 }
 
 function removeFromCart(index) {
@@ -118,15 +99,8 @@ function removeFromCart(index) {
   loadCart();
 }
 
-function updateGrandTotal() {
-  let cart = JSON.parse(localStorage.getItem("cart")) || [];
-  let grandTotal = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
-  document.getElementById("grandTotal").innerText = "Grand Total: ₹ " + grandTotal;
-}
-
 loadCart();
 </script>
 
 </body>
 </html>
-
