@@ -56,37 +56,77 @@
     input[type="submit"]:hover, input[type="reset"]:hover {
       background: #5a0990;
     }
+    .error {
+      color: red;
+      font-size: 14px;
+    }
+    .strength {
+      font-size: 14px;
+      font-weight: bold;
+      margin-top: 5px;
+    }
+    .weak { color: red; }
+    .medium { color: orange; }
+    .strong { color: green; }
+    .password-container {
+      position: relative;
+    }
+    .toggle-password {
+      position: absolute;
+      right: 10px;
+      top: 35%;
+      cursor: pointer;
+      font-size: 14px;
+      color: #6A0DAD;
+      user-select: none;
+    }
   </style>
 </head>
 <body>
   <h2>Registration Form</h2>
-  <form>
+  <form id="regForm">
     <!-- Name -->
     <label>Name:</label>
     <input type="text" name="name" required>
+    <div class="error" id="nameError"></div>
 
     <!-- Password -->
     <label>Password:</label>
-    <input type="password" name="password" required>
+    <div class="password-container">
+      <input type="password" name="password" id="password" required>
+      <span class="toggle-password" onclick="togglePassword('password')">👁️</span>
+    </div>
+    <div class="error" id="passError"></div>
+    <div id="strengthMsg" class="strength"></div> <!-- Strength Meter -->
+
+    <!-- Confirm Password -->
+    <label>Confirm Password:</label>
+    <div class="password-container">
+      <input type="password" name="confirmPassword" id="confirmPassword" required>
+      <span class="toggle-password" onclick="togglePassword('confirmPassword')">👁️</span>
+    </div>
+    <div class="error" id="confirmPassError"></div>
 
     <!-- Email -->
     <label>Email ID:</label>
     <input type="email" name="email" required>
+    <div class="error" id="emailError"></div>
 
     <!-- Phone -->
     <label>Phone Number:</label>
     <input type="text" name="phone">
+    <div class="error" id="phoneError"></div>
 
     <!-- Sex -->
     <label>Sex:</label>
     <label class="inline"><input type="radio" name="sex" value="Male" required> Male</label>
     <label class="inline"><input type="radio" name="sex" value="Female"> Female</label>
+    <div class="error" id="sexError"></div>
 
     <!-- Date of Birth -->
     <label>Date of Birth:</label>
     <select name="dob_day" class="inline">
       <option value="">Day</option>
-      <!-- Generate 1-31 -->
       <script>
         for (let i = 1; i <= 31; i++) {
           document.write(`<option>${i}</option>`);
@@ -102,7 +142,6 @@
     </select>
     <select name="dob_year" class="inline">
       <option value="">Year</option>
-      <!-- Generate years -->
       <script>
         let year = new Date().getFullYear();
         for (let i = year; i >= 1950; i--) {
@@ -110,6 +149,7 @@
         }
       </script>
     </select>
+    <div class="error" id="dobError"></div>
 
     <!-- Languages Known -->
     <label>Languages Known:</label>
@@ -117,6 +157,7 @@
     <label class="inline"><input type="checkbox" name="lang" value="Telugu"> Telugu</label>
     <label class="inline"><input type="checkbox" name="lang" value="Hindi"> Hindi</label>
     <label class="inline"><input type="checkbox" name="lang" value="Tamil"> Tamil</label>
+    <div class="error" id="langError"></div>
 
     <!-- Address -->
     <label>Address:</label>
@@ -128,5 +169,108 @@
       <input type="submit" value="Register">
     </div>
   </form>
+
+  <script>
+    const form = document.getElementById("regForm");
+
+    function setError(id, message) {
+      document.getElementById(id).innerText = message;
+    }
+
+    // Toggle show/hide password
+    function togglePassword(fieldId) {
+      const field = document.getElementById(fieldId);
+      field.type = field.type === "password" ? "text" : "password";
+    }
+
+    // Password strength check
+    form.password.addEventListener("input", () => {
+      const pwd = form.password.value.trim();
+      const strengthMsg = document.getElementById("strengthMsg");
+
+      if (pwd.length < 6) {
+        strengthMsg.textContent = "Weak password";
+        strengthMsg.className = "strength weak";
+      } else if (/^(?=.*[A-Za-z])(?=.*\d).{6,}$/.test(pwd) && pwd.length < 8) {
+        strengthMsg.textContent = "Medium strength password";
+        strengthMsg.className = "strength medium";
+      } else if (/^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*?&]).{8,}$/.test(pwd)) {
+        strengthMsg.textContent = "Strong password";
+        strengthMsg.className = "strength strong";
+      } else {
+        strengthMsg.textContent = "";
+      }
+
+      // Check confirm password live
+      checkConfirmPassword();
+    });
+
+    // Confirm password live check
+    form.confirmPassword.addEventListener("input", checkConfirmPassword);
+    function checkConfirmPassword() {
+      if (form.confirmPassword.value.trim() !== form.password.value.trim()) {
+        setError("confirmPassError", "Passwords do not match");
+      } else {
+        setError("confirmPassError", "");
+      }
+    }
+
+    // Live validations
+    form.name.addEventListener("input", () => {
+      setError("nameError", form.name.value.trim().length < 3 ? "Name must be at least 3 characters" : "");
+    });
+
+    form.email.addEventListener("input", () => {
+      const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      setError("emailError", !re.test(form.email.value.trim()) ? "Enter a valid email" : "");
+    });
+
+    form.phone.addEventListener("input", () => {
+      if (form.phone.value.trim() !== "" && !/^\d{10}$/.test(form.phone.value.trim())) {
+        setError("phoneError", "Phone must be 10 digits");
+      } else {
+        setError("phoneError", "");
+      }
+    });
+
+    // Final validation on submit
+    form.addEventListener("submit", function(e) {
+      e.preventDefault();
+      let valid = true;
+
+      if (!form.sex.value) {
+        setError("sexError", "Please select your gender");
+        valid = false;
+      } else {
+        setError("sexError", "");
+      }
+
+      if (form.dob_day.value === "" || form.dob_month.value === "" || form.dob_year.value === "") {
+        setError("dobError", "Please select complete DOB");
+        valid = false;
+      } else {
+        setError("dobError", "");
+      }
+
+      let langs = document.querySelectorAll('input[name="lang"]:checked');
+      if (langs.length === 0) {
+        setError("langError", "Select at least one language");
+        valid = false;
+      } else {
+        setError("langError", "");
+      }
+
+      // Confirm password validation
+      if (form.confirmPassword.value.trim() !== form.password.value.trim()) {
+        setError("confirmPassError", "Passwords do not match");
+        valid = false;
+      }
+
+      if (valid && document.querySelectorAll(".error:not(:empty)").length === 0) {
+        alert("Registration successful ✅");
+        form.submit();
+      }
+    });
+  </script>
 </body>
 </html>
