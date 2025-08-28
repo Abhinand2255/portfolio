@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -28,19 +29,19 @@
       </tr>
       <tr>
         <td><img src="cse1.jpg"></td><td>Data Structures in C</td><td>Mark Weiss</td><td>Pearson</td><td>₹ 3,200</td>
-        <td><button onclick="addToCart('Data Structures in C', 3200, 'book1.jpg')">Add</button></td>
+        <td><button onclick="addToCart('Data Structures in C', 3200, 'cse1.jpg')">Add</button></td>
       </tr>
       <tr>
         <td><img src="cse2.jpg"></td><td>Operating System Concepts</td><td>Silberschatz</td><td>Wiley</td><td>₹ 4,400</td>
-        <td><button onclick="addToCart('Operating System Concepts', 4400, 'book2.jpg')">Add</button></td>
+        <td><button onclick="addToCart('Operating System Concepts', 4400, 'cse2.jpg')">Add</button></td>
       </tr>
       <tr>
         <td><img src="cse3.jpg"></td><td>Database System Concepts</td><td>Korth</td><td>McGraw Hill</td><td>₹ 4,000</td>
-        <td><button onclick="addToCart('Database System Concepts', 4000, 'book3.jpg')">Add</button></td>
+        <td><button onclick="addToCart('Database System Concepts', 4000, 'cse3.jpg')">Add</button></td>
       </tr>
       <tr>
         <td><img src="cse4.jpg"></td><td>Introduction to Algorithms</td><td>Cormen</td><td>MIT Press</td><td>₹ 5,600</td>
-        <td><button onclick="addToCart('Introduction to Algorithms', 5600, 'book4.jpg')">Add</button></td>
+        <td><button onclick="addToCart('Introduction to Algorithms', 5600, 'cse4.jpg')">Add</button></td>
       </tr>
     </table>
   </div>
@@ -123,6 +124,13 @@
     </table>
   </div>
 
+  <!-- External JavaScript -->
+  <script src="cart.js"></script>
+
+</body>
+</html>
+
+
 <script>
 function addToCart(name, price, img) {
   let cart = JSON.parse(localStorage.getItem("cart")) || [];
@@ -141,3 +149,4 @@ function addToCart(name, price, img) {
 
 </body>
 </html>
+
